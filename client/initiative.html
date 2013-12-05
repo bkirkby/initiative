@@ -1,0 +1,56 @@
+<head>
+  <title>initiative</title>
+  <link href="bootstrap.css" rel="stylesheet">
+  <style>
+    #addCombatantDiv {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-header"><h1 class="text-center">initiative</h1></div>
+  <div id="outer">
+    {{> initiative}}
+  </div>
+
+  <script src="jquery.js"></script>
+  <script src="bootstrap.js"></script>
+</body>
+
+<template name="initiative">
+  <div class="container" style="margin-left: 30px">
+    <div class="row"><input type="button" value="+" id="addCombatantShow"/><input type="button" value="-" id="deleteCombatant" /><input class="offset6" type="button" value="next" id="nextPlayer" /></div>
+  </div>
+  <div class="container" id="addCombatantDiv">
+    <div class="row" style="margin-left: 10px">
+    <input id="newName" type="text" class="form-control" placeholder="name" />
+    <input id="newInit" type="text" class="form-control" placeholder="init" />
+    </div>
+    <div class="row" style="margin-left: 10px">
+    <input id="newDex" type="text" class="form-control" placeholder="dex" />
+    <input type="button" value="add" id="addCombatantAdd" />
+    <input type="button" value="update" id="addCombatantUpdate" />
+    </div>
+  </div>
+  <div class="initiative">
+    {{#each combatants}}
+      {{> combatant}}
+    {{/each}}
+  </div>
+
+  {{#if selected_name}}
+  {{/if}}
+
+  {{#unless selected_name}}
+  {{/unless}}
+
+</template>
+
+<template name="combatant">
+  <div class="combatant {{selected}}" draggable="true">
+    <span class="name">{{name}}</span>
+    <span class="initiative">{{initiative}}({{dex}})</span>
+  </div>
+</template>
+
