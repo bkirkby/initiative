@@ -3,8 +3,34 @@
 
 Combatants = new Meteor.Collection("combatants");
 
+  $(function() {
+    $( "#sortable" ).sortable({
+      revert: false
+      , stop: function( event, ui ) {
+        sortThisBitch();
+      }
+    });
+  });
+
+  function sortThisBitch() {
+    var domCombatants = $.find(".combatant");
+    Combatants.find().forEach(
+      function(combatant) {
+        id = combatant._id;
+        $(domCombatants).each(function(index, domCombatant) {
+          console.log($(domCombatant).attr("_id"));
+          if(id == $(domCombatant).attr("_id")) {
+            combatant.position = position;
+            position++;
+          }
+        });
+      }
+    );
+  }
+
   Template.initiative.combatants = function () {
-    return Combatants.find({}, {sort: {initiative: -1, dex: -1}});
+    //return Combatants.find({}, {sort: {initiative: -1, dex: -1}});
+    return Combatants.find();
   };
 
   Template.initiative.selected_name = function () {
@@ -66,16 +92,17 @@ Combatants = new Meteor.Collection("combatants");
       $("#addCombatantAdd").hide();
       $("#addCombatantDiv").show();
     },
+
     'dragstart' : function () {
       console.log("start drag: "+this._id);
     },
     'dragstop' : function () {
       console.log("stop drag: "+this._id);
     },
-    'mouseover' : function () {
-      console.log(this);
-    },
-    'mouseout' : function () {
-      console.log("mouse exit: "+this._id);
-    }
+//    'mouseover' : function () {
+//      console.log(this);
+//    },
+//    'mouseout' : function () {
+//      console.log("mouse exit: "+this._id);
+//    }
   });
