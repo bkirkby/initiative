@@ -123,13 +123,12 @@ Turn = new Meteor.Collection("turn");
     }
   });
 
-  Template.combatant.events({
-    'click': function () {
-      Session.set("selected_combatant", this._id);
-    },
-    'dblclick': function () {
-      Session.set("edit_combatant", this._id);
-      var player = Combatants.findOne(Session.get("selected_combatant"));
+  function editCombatant( combatantId) {
+    if( $("#addCombatantDiv").is(":visible")) {
+        $("#addCombatantDiv").hide();
+    } else {
+      Session.set("edit_combatant", combatantId);
+      var player = Combatants.findOne(combatantId);
       $("#newName").val( player.name);
       $("#newInit").val( player.initiative);
       $("#newDex").val( player.dex);
@@ -139,5 +138,28 @@ Turn = new Meteor.Collection("turn");
       $("#updateCombatant").show();
       $("#addCombatantAdd").hide();
       $("#addCombatantDiv").show();
+    }
+  }
+
+  longPressCombatant = "";
+  function checkLongPress( ){
+    if( longPressCombatant != "") {
+      editCombatant( longPressCombatant);
+    }
+  }
+
+  Template.combatant.events({
+    'click': function () {
+      Session.set("selected_combatant", this._id);
+    },
+    'dblclick': function () {
+      editCombatant( this._id);
+    },
+    'mousedown': function() {
+      longPressCombatant = this._id;
+      Meteor.setTimeout( checkLongPress, 2000);
+    },
+    'mouseup': function() {
+      longPressCombatant = "";
     }
   });
