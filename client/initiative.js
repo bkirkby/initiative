@@ -15,18 +15,19 @@ Turn = new Meteor.Collection("turn");
 
   function sortThisBitch() {
     var domCombatants = $.find(".combatant");
-    Combatants.find().forEach(
-      function(combatant) {
-        id = combatant._id;
-        $(domCombatants).each(function(index, domCombatant) {
-          console.log($(domCombatant).attr("_id"));
-          if(id == $(domCombatant).attr("_id")) {
-            combatant.position = position;
+    var position = 0;
+
+    $(domCombatants).each(function(index, domCombatant) {
+      id = $(domCombatant).attr("_id");
+      Combatants.find().forEach(
+        function(combatant) {
+          if(id == combatant._id) {
+            Combatants.update({_id:id}, {$set:{position:position}});
             position++;
           }
-        });
-      }
-    );
+        }
+      );
+    });
   }
 
   Template.initiative.combatants = function () {
