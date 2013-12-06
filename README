@@ -5,6 +5,6 @@ queue. you can play with a runing example of this at
 http://initiative.meteor.com
 
 how to run:
-1. install meteor: curl https://install.meteor.com | sh
-2. run meteor in the project directory
+1. install meteor: 'curl https://install.meteor.com | sh'
+2. run 'meteor' in the project directory
 3. browse to http://localhost:3000/

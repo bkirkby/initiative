@@ -1,11 +1,8 @@
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>initiative</title>
-
-  <link href="bootstrap.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    #addCombatantDiv {
-      display: none;
-    }
   </style>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
   <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -18,25 +15,27 @@
     {{> initiative}}
   </div>
 
-  <script src="jquery.js"></script>
-  <script src="bootstrap.js"></script>
-
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </body>
 
 <template name="initiative">
-  <div class="container" style="margin-left: 30px">
-    <div class="row"><input type="button" value="+" id="addCombatantShow"/><input type="button" value="-" id="deleteCombatant" /><input class="offset6" type="button" value="next" id="nextPlayer" /></div>
+  <div class="container" style="margin-left: 3px; margin-bottom: 2px;">
+    <div class="row">
+      <input type="button" value="next" id="nextPlayer" />
+      <input type="button" value="recalc" id="recalcInitiatives" />
+      <input class="col-xs-offset-4" type="button" value="+" id="addCombatantShow"/>
+      <input type="button" value="-" id="deleteCombatant" />
+    </div>
   </div>
-  <div class="container" id="addCombatantDiv">
-    <div class="row" style="margin-left: 10px">
+  <div class="container col-md-6 col-md-offset-3" id="addCombatantDiv">
     <input id="newName" type="text" class="form-control" placeholder="name" />
-    <input id="newInit" type="text" class="form-control" placeholder="init" />
-    </div>
-    <div class="row" style="margin-left: 10px">
+    <input id="newInit" type="text" class="form-control" placeholder="initiative" />
     <input id="newDex" type="text" class="form-control" placeholder="dex" />
-    <input type="button" value="add" id="addCombatantAdd" />
-    <input type="button" value="update" id="addCombatantUpdate" />
-    </div>
+    <input id="newMaxHp" type="text" class="form-control" placeholder="maxHp" />
+    <input id="newCurrHp" type="text" class="form-control" placeholder="hp" />
+    <input class="col-md-2 col-md-offset-5" id="isMonster" type="checkbox" class="form-control">monster</input>
+    <input class="col-md-offset-6" type="button" value="add" id="addCombatantAdd" />
+    <input class="col-md-offset-6" type="button" value="update" id="updateCombatant" />
   </div>
 
   <div id="sortable" class="initiative">
@@ -45,16 +44,11 @@
     {{/each}}
   </div>
 
-  {{#if selected_name}}
-  {{/if}}
-
-  {{#unless selected_name}}
-  {{/unless}}
-
 </template>
 
 <template name="combatant">
-  <div class="combatant {{selected}}" draggable="true" _id="{{_id}}">
+  <div style="opacity: {{opacity}};" class="combatant {{monster}} {{selected}} col-md-12" draggable="true" _id="{{_id}}"> 
+    <span class="glyphicon {{turn}}"></span>
     <span class="name">{{name}}</span>
     <span class="initiative">{{initiative}}({{dex}})</span>
   </div>
