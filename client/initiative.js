@@ -35,12 +35,18 @@ Turn = new Meteor.Collection("turn");
       }
     },
     'click input#addCombatantAdd': function () {
-      nextPos = Combatants.find({},{sort:{position: -1, initiative: -1, dex: -1}}).fetch()[0].position+1;
+      currCombatant = Combatants.find({},{sort:{position: -1, initiative: -1, dex: -1}}).fetch()[0];
+      if( typeof currCombatant == 'undefined' ){
+        nextPos = 0;
+      } else {
+        nextPos = currCombatant.position+1;
+      }
       Combatants.insert({name:$("#newName").val(),initiative:Number($("#newInit").val()),dex:Number($("#newDex").val()),isMonster:$("#isMonster").is(":checked"),position:nextPos});
       $("#addCombatantDiv").hide();
     },
     'click input#addCombatantUpdate': function () {
-      Combatants.update({_id:Session.get("selected_combatant")},{$set:{initiative:Number($("#newInit").val()),dex:Number($("#newDex").val()),name:$("#newName").val(),isMonster:$("#isMonster").is(":checked"),position:0}});
+      pos = Combatants.find({_id:Session.get("selected_combatant")}).fetch()[0].position;
+      Combatants.update({_id:Session.get("selected_combatant")},{$set:{initiative:Number($("#newInit").val()),dex:Number($("#newDex").val()),name:$("#newName").val(),isMonster:$("#isMonster").is(":checked"),position:pos}});
       $("#addCombatantDiv").hide();
     },
     'click input#deleteCombatant': function () {
@@ -48,12 +54,11 @@ Turn = new Meteor.Collection("turn");
     },
     'click input#nextPlayer': function() {
       currTurn = Turn.findOne();
-      turnPosition = Combatants.findOne({_id:currTurn.combatantId}).position;
-      nextCombatant= Combatants.find({position:{$gt:turnPosition}},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
+      nextCombatant= Combatants.find({position:{$gt:currTurn.position}},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
       if( typeof nextCombatant == 'undefined') {
         nextCombatant = Combatants.find({},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
       }
-      Turn.update({_id:currTurn._id},{combatantId:nextCombatant._id});
+      Turn.update({_id:currTurn._id},{position:nextCombatant.position,combatantId:nextCombatant._id});
     }
   });
 
