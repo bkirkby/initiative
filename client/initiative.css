@@ -1,5 +1,5 @@
 body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: 'IM Fell English', serif;
     font-weight: 200;
     margin: 50px 0;
     padding: 0;
@@ -10,6 +10,11 @@ body {
     user-select: none;
 }
 
+h1.text-center {
+  font-family: 'IM Fell English', serif;
+  font-size: 128px;
+}
+
 #outer {
     width: 600px;
     margin: 0 auto;    
@@ -18,14 +23,12 @@ body {
 .combatant{
     cursor: pointer;
     padding: 5px;
-  border: 2px solid black;
-  border-bottom: 1px solid black;
 }
 
 .combatant .name {
     display: inline-block;
     width: 300px;
-    font-size: 1.75em;
+    font-size: 3em;
   color: white;
   font-weight: bold;
 }
@@ -39,29 +42,36 @@ body {
     display: inline-block;
     width: 100px;
     text-align: right;
-    font-size: 2em;
+    font-size: 3em;
     font-weight: bold;
     color: white;
 }
 
 .combatant {
-  background-color: blue;
+  background-color: #2748a7;
+  border: 2px solid #2748a7;
+  border-bottom: 2px solid black;
+  border-radius: 15px;
+  font-family: 'IM Fell English', serif;
 }
 
 .combatant.selected {
-  border: 3px dotted black;
+  border: 2px dotted black;
 }
 
 .combatant.monster {
-  background-color: red;
+  background-color: #ed350a;
+  border: 2px solid #ed350a;
+  border-bottom: 2px solid black;
+  border-radius: 15px;
 }
 
 .combatant:hover {
-  border: 4px solid navy;
+  border: 2px solid yellow;
 }
 
 span.glyphicon-arrow-right {
-  font-size: 1.5em;
+  font-size: 2.5em;
   color: teal;
   text-shadow: 1px 1px 1px #e0e0e0;
 }
