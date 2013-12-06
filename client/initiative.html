@@ -1,6 +1,6 @@
 <head>
   <title>initiative</title>
-  <link href="bootstrap.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
   <style>
     #addCombatantDiv {
       display: none;
@@ -15,7 +15,7 @@
   </div>
 
   <script src="jquery.js"></script>
-  <script src="bootstrap.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </body>
 
 <template name="initiative">
@@ -29,6 +29,7 @@
     </div>
     <div class="row" style="margin-left: 10px">
     <input id="newDex" type="text" class="form-control" placeholder="dex" />
+    <input id="isMonster" type="checkbox" class="form-control">monster</input>
     <input type="button" value="add" id="addCombatantAdd" />
     <input type="button" value="update" id="addCombatantUpdate" />
     </div>
@@ -39,16 +40,12 @@
     {{/each}}
   </div>
 
-  {{#if selected_name}}
-  {{/if}}
-
-  {{#unless selected_name}}
-  {{/unless}}
-
 </template>
 
 <template name="combatant">
-  <div class="combatant {{selected}}" draggable="true">
+<!--  <div class="combatant {{monster}} {{selected}}" draggable="true"> -->
+  <div class="combatant {{monster}}" draggable="true"> 
+    <span class="glyphicon {{turn}}"></span>
     <span class="name">{{name}}</span>
     <span class="initiative">{{initiative}}({{dex}})</span>
   </div>
