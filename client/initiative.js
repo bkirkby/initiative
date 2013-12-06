@@ -42,7 +42,7 @@ Turn = new Meteor.Collection("turn");
       }
     },
     'click input#addCombatantAdd': function () {
-      currCombatant = Combatants.find({},{sort:{position: -1, initiative: -1, dex: -1}}).fetch()[0];
+      var currCombatant = Combatants.find({},{sort:{position: -1, initiative: -1, dex: -1}}).fetch()[0];
       if( typeof currCombatant == 'undefined' ){
         nextPos = 0;
       } else {
@@ -75,12 +75,25 @@ Turn = new Meteor.Collection("turn");
       Combatants.remove(Session.get("selected_combatant"));
     },
     'click input#nextPlayer': function() {
-      currTurn = Turn.findOne();
-      nextCombatant= Combatants.find({position:{$gt:currTurn.position}},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
+      var currTurn = Turn.findOne();
+      var nextCombatant= Combatants.find({position:{$gt:currTurn.position}},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
       if( typeof nextCombatant == 'undefined') {
         nextCombatant = Combatants.find({},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
       }
       Turn.update({_id:currTurn._id},{position:nextCombatant.position,combatantId:nextCombatant._id});
+    },
+    'click #recalcInitiatives': function() {
+      var combatants=Combatants.find({},{sort:{initiative: -1, dex: -1}});
+      var i=0;
+      var firstCId;
+      combatants.forEach( function(combatant) {
+        if( i==0) {
+          firstCId = combatant._id;
+        }
+        Combatants.update({_id:combatant._id},{$set:{position:i++}});
+      });
+      var turn = Turn.findOne();
+      Turn.update({_id:turn._id},{$set:{position:0,combatantId:firstCId}});
     }
   });
 
