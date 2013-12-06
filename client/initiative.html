@@ -3,9 +3,6 @@
   <title>initiative</title>
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    #addCombatantDiv {
-      display: none;
-    }
   </style>
 </head>
 
@@ -20,14 +17,14 @@
 </body>
 
 <template name="initiative">
-  <div class="container" style="margin-left: 3px">
+  <div class="container" style="margin-left: 3px; margin-bottom: 2px;">
     <div class="row">
       <input type="button" value="next" id="nextPlayer" />
       <input class="col-xs-offset-4" type="button" value="+" id="addCombatantShow"/>
       <input type="button" value="-" id="deleteCombatant" />
     </div>
   </div>
-  <div class="container col-md-6 col-md-offset-3" style="border: 2px solid black; padding: 5px; " id="addCombatantDiv">
+  <div class="container col-md-6 col-md-offset-3" id="addCombatantDiv">
     <input id="newName" type="text" class="form-control" placeholder="name" />
     <input id="newInit" type="text" class="form-control" placeholder="initiative" />
     <input id="newDex" type="text" class="form-control" placeholder="dex" />
