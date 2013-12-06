@@ -48,7 +48,7 @@ Turn = new Meteor.Collection("turn");
 
   Template.combatant.opacity = function () {
     var combatant = Combatants.findOne(this._id);
-    return combatant.currHp/combatant.maxHp;
+    return Math.max(combatant.currHp/combatant.maxHp, .15);
   };
 
   Template.initiative.events({
