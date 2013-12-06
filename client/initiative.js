@@ -20,6 +20,11 @@ Turn = new Meteor.Collection("turn");
     return Turn.findOne().combatantId === this._id ? "glyphicon-arrow-right" : "";
   };
 
+  Template.combatant.opacity = function () {
+    var combatant = Combatants.findOne(this._id);
+    return combatant.currHp/combatant.maxHp;
+  };
+
   Template.initiative.events({
     'click input#addCombatantShow': function () {
       if( $("#addCombatantDiv").is(":visible")) {
@@ -29,8 +34,10 @@ Turn = new Meteor.Collection("turn");
         $("#newInit").val("");
         $("#newDex").val("");
         $("#isMonster").prop("checked", true);
+        $("#newMaxHp").val("");
+        $("#newCurrHp").val("");
         $("#addCombatantAdd").show();
-        $("#addCombatantUpdate").hide();
+        $("#updateCombatant").hide();
         $("#addCombatantDiv").show();
       }
     },
@@ -41,12 +48,27 @@ Turn = new Meteor.Collection("turn");
       } else {
         nextPos = currCombatant.position+1;
       }
-      Combatants.insert({name:$("#newName").val(),initiative:Number($("#newInit").val()),dex:Number($("#newDex").val()),isMonster:$("#isMonster").is(":checked"),position:nextPos});
+      Combatants.insert({name:$("#newName").val(),
+        initiative:Number($("#newInit").val()),
+        dex:Number($("#newDex").val()),
+        isMonster:$("#isMonster").is(":checked"),
+        position:nextPos,
+        maxHp:$("#newMaxHp").val(),
+        currHp:$("#newCurrHp").val()
+      });
       $("#addCombatantDiv").hide();
     },
-    'click input#addCombatantUpdate': function () {
-      pos = Combatants.find({_id:Session.get("selected_combatant")}).fetch()[0].position;
-      Combatants.update({_id:Session.get("selected_combatant")},{$set:{initiative:Number($("#newInit").val()),dex:Number($("#newDex").val()),name:$("#newName").val(),isMonster:$("#isMonster").is(":checked"),position:pos}});
+    'click input#updateCombatant': function () {
+      var combatant = Combatants.find({_id:Session.get("selected_combatant")}).fetch()[0];
+      Combatants.update({_id:Session.get("selected_combatant")},{$set:{
+        initiative:Number($("#newInit").val()),
+        dex:Number($("#newDex").val()),
+        name:$("#newName").val(),
+        isMonster:$("#isMonster").is(":checked"),
+        position:combatant.position,
+        maxHp:Number($("#newMaxHp").val()),
+        currHp:Number($("#newCurrHp").val()) }
+      });
       $("#addCombatantDiv").hide();
     },
     'click input#deleteCombatant': function () {
@@ -73,20 +95,10 @@ Turn = new Meteor.Collection("turn");
       $("#newInit").val( player.initiative);
       $("#newDex").val( player.dex);
       $("#isMonster").prop("checked", player.isMonster);
-      $("#addCombatantUpdate").show();
+      $("#newMaxHp").val( player.maxHp);
+      $("#newCurrHp").val( player.currHp);
+      $("#updateCombatant").show();
       $("#addCombatantAdd").hide();
       $("#addCombatantDiv").show();
-    }/*,
-    'dragstart' : function () {
-      console.log("start drag: "+this._id);
-    },
-    'dragstop' : function () {
-      console.log("stop drag: "+this._id);
-    },
-    'mouseover' : function () {
-      console.log(this);
-    },
-    'mouseout' : function () {
-      console.log("mouse exit: "+this._id);
-    }*/
+    }
   });

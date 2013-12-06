@@ -18,16 +18,16 @@ body {
 .combatant{
     cursor: pointer;
     padding: 5px;
-}
-
-.combatant:hover {
-  border: 1px solid navy;
+  border: 2px solid black;
+  border-bottom: 1px solid black;
 }
 
 .combatant .name {
     display: inline-block;
     width: 300px;
     font-size: 1.75em;
+  color: white;
+  font-weight: bold;
 }
 
 .combatant .turn {
@@ -41,15 +41,23 @@ body {
     text-align: right;
     font-size: 2em;
     font-weight: bold;
-    color: #777;
+    color: white;
 }
 
 .combatant {
   background-color: blue;
 }
 
+.combatant.selected {
+  border: 3px dotted black;
+}
+
 .combatant.monster {
   background-color: red;
+}
+
+.combatant:hover {
+  border: 4px solid navy;
 }
 
 span.glyphicon-arrow-right {
