@@ -30,7 +30,9 @@
       <input type="button" value="-" id="deleteCombatant" />
     </div>
   </div>
+  <div id="topCombatantDiv">
   <div class="container col-md-6 col-md-offset-3" id="addCombatantDiv">
+    <input type="button" value="^" id="closeAddCombatantDiv" />
     <input id="newName" type="text" class="form-control" placeholder="name" />
     <input id="newInit" type="text" class="form-control" placeholder="initiative" />
     <input id="newDex" type="text" class="form-control" placeholder="dex" />
@@ -39,6 +41,7 @@
     <input class="col-md-2 col-md-offset-5" id="isMonster" type="checkbox" class="form-control">monster</input>
     <input class="col-md-offset-6" type="button" value="add" id="addCombatantAdd" />
     <input class="col-md-offset-6" type="button" value="update" id="updateCombatant" />
+  </div>
   </div>
 
   <div id="sortable" class="initiative">
@@ -50,7 +53,7 @@
 </template>
 
 <template name="combatant">
-  <div style="opacity: {{opacity}};" class="combatant {{monster}} {{selected}} col-md-12" draggable="true" _id="{{_id}}"> 
+  <div style="opacity: {{opacity}};" class="combatant {{monster}} {{selected}} col-md-12" draggable="true" id="{{_id}}" _id="{{_id}}"> 
     <span class="glyphicon {{turn}}"></span>
     <span class="name">{{name}}</span>
     <span class="initiative">{{initiative}}({{dex}})</span>

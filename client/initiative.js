@@ -52,20 +52,21 @@ Turn = new Meteor.Collection("turn");
   };
 
   Template.initiative.events({
+    'click input#closeAddCombatantDiv': function () {
+      $("#addCombatantDiv").appendTo("#topCombatantDiv");
+      $("#addCombatantDiv").hide();
+    },
     'click input#addCombatantShow': function () {
-      if( $("#addCombatantDiv").is(":visible")) {
-        $("#addCombatantDiv").hide();
-      } else {
-        $("#newName").val("");
-        $("#newInit").val("");
-        $("#newDex").val("");
-        $("#isMonster").prop("checked", true);
-        $("#newMaxHp").val("");
-        $("#newCurrHp").val("");
-        $("#addCombatantAdd").show();
-        $("#updateCombatant").hide();
-        $("#addCombatantDiv").show();
-      }
+      $("#addCombatantDiv").appendTo("#topCombatantDiv");
+      $("#newName").val("");
+      $("#newInit").val("");
+      $("#newDex").val("");
+      $("#isMonster").prop("checked", true);
+      $("#newMaxHp").val("");
+      $("#newCurrHp").val("");
+      $("#addCombatantAdd").show();
+      $("#updateCombatant").hide();
+      $("#addCombatantDiv").show();
     },
     'click input#addCombatantAdd': function () {
       var currCombatant = Combatants.find({},{sort:{position: -1, initiative: -1, dex: -1}}).fetch()[0];
@@ -124,21 +125,18 @@ Turn = new Meteor.Collection("turn");
   });
 
   function editCombatant( combatantId) {
-    if( $("#addCombatantDiv").is(":visible")) {
-        $("#addCombatantDiv").hide();
-    } else {
-      Session.set("edit_combatant", combatantId);
-      var player = Combatants.findOne(combatantId);
-      $("#newName").val( player.name);
-      $("#newInit").val( player.initiative);
-      $("#newDex").val( player.dex);
-      $("#isMonster").prop("checked", player.isMonster);
-      $("#newMaxHp").val( player.maxHp);
-      $("#newCurrHp").val( player.currHp);
-      $("#updateCombatant").show();
-      $("#addCombatantAdd").hide();
-      $("#addCombatantDiv").show();
-    }
+    $("#addCombatantDiv").appendTo("#"+combatantId);
+    Session.set("edit_combatant", combatantId);
+    var player = Combatants.findOne(combatantId);
+    $("#newName").val( player.name);
+    $("#newInit").val( player.initiative);
+    $("#newDex").val( player.dex);
+    $("#isMonster").prop("checked", player.isMonster);
+    $("#newMaxHp").val( player.maxHp);
+    $("#newCurrHp").val( player.currHp);
+    $("#updateCombatant").show();
+    $("#addCombatantAdd").hide();
+    $("#addCombatantDiv").show();
   }
 
   Template.combatant.events({

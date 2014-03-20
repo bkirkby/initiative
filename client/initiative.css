@@ -80,5 +80,7 @@ span.glyphicon-arrow-right {
   border: 2px solid black; 
   padding: 5px; 
   margin-bottom: 3px;
+  background-color: white;
   display: none;
 }
+
