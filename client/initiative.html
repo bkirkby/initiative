@@ -54,7 +54,9 @@
 
 <template name="combatant">
   <div style="opacity: {{opacity}};" class="combatant {{monster}} {{selected}} col-md-12" draggable="true" id="{{_id}}" _id="{{_id}}"> 
-    <span class="glyphicon {{turn}}"></span>
+    {{#if turn}}
+    <span class="glyphicon glyphicon-arrow-right" id="turnArrow"></span>
+    {{/if}}
     <span class="name">{{name}}</span>
     <span class="initiative">{{initiative}}({{dex}})</span>
   </div>

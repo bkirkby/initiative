@@ -8,12 +8,12 @@ Turn = new Meteor.Collection("turn");
     $( "#sortable" ).sortable({
       revert: false
       , stop: function( event, ui ) {
-        sortThisBitch();
+        sort();
       }
     });
   });
 
-  function sortThisBitch() {
+  function sort() {
     var domCombatants = $.find(".combatant");
     var position = 0;
 
@@ -43,13 +43,22 @@ Turn = new Meteor.Collection("turn");
   };
 
   Template.combatant.turn = function () {
-    return Turn.findOne().combatantId === this._id ? "glyphicon-arrow-right" : "";
+    return Turn.findOne().combatantId === this._id ? "yes" : "";
   };
 
   Template.combatant.opacity = function () {
     var combatant = Combatants.findOne(this._id);
     return Math.max(combatant.currHp/combatant.maxHp, .15);
   };
+
+  function gotoNextCombatant() {
+    var currTurn = Turn.findOne();
+    var nextCombatant= Combatants.find({position:{$gt:currTurn.position}},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
+    if( typeof nextCombatant == 'undefined') {
+      nextCombatant = Combatants.find({},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
+    }
+    Turn.update({_id:currTurn._id},{position:nextCombatant.position,combatantId:nextCombatant._id});
+  }
 
   Template.initiative.events({
     'click input#closeAddCombatantDiv': function () {
@@ -101,13 +110,11 @@ Turn = new Meteor.Collection("turn");
     'click input#deleteCombatant': function () {
       Combatants.remove(Session.get("selected_combatant"));
     },
+    'click #turnArrow': function() {
+      gotoNextCombatant();
+    },
     'click input#nextPlayer': function() {
-      var currTurn = Turn.findOne();
-      var nextCombatant= Combatants.find({position:{$gt:currTurn.position}},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
-      if( typeof nextCombatant == 'undefined') {
-        nextCombatant = Combatants.find({},{sort:{position: 1, initiative: -1, dex: -1}}).fetch()[0];
-      }
-      Turn.update({_id:currTurn._id},{position:nextCombatant.position,combatantId:nextCombatant._id});
+      gotoNextCombatant();
     },
     'click #recalcInitiatives': function() {
       var combatants=Combatants.find({},{sort:{initiative: -1, dex: -1}});
