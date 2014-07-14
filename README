@@ -8,3 +8,14 @@ how to run:
 1. install meteor: 'curl https://install.meteor.com | sh'
 2. run 'meteor' in the project directory
 3. browse to http://localhost:3000/
+
+this is a quick hack-a-thon project i did to experience meteor.
+
+KNOWN BUGS:
+
+1. sometimes a refresh of the page does not get a full list of 
+those in the encounter. think this might be a meteor or a 
+meteor/hosted problem
+
+2. after youu make an edit of an entry, the controls stop work so you have 
+to reload the page
